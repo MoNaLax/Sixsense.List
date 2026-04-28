@@ -514,5 +514,15 @@ nav {
 @media (max-width: 768px) {
   nav { padding: 12px 16px; }
   .nav-logo { font-size: 1rem; }
+  .nav-links a { padding: 6px 10px; font-size: 0.75rem; }
   .music-player { bottom: 16px; right: 16px; }
+  .music-toggle { width: 46px; height: 46px; font-size: 1.1rem; }
+  .social-float { display: none; }
+  .back-btn { top: 14px; left: 14px; padding: 8px 12px; font-size: 0.65rem; }
+  .ad-card { max-width: 92vw; }
+  .ad-image { height: 200px; }
+}
+
+@media (max-width: 480px) {
+  .btn { padding: 10px 20px; font-size: 0.7rem; }
 }

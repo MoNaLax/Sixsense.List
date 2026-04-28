@@ -201,7 +201,7 @@ function renderAdminMembers() {
   const members = adminData.members || [];
   if (!members.length) { list.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem">ยังไม่มีสมาชิก</p>'; return; }
 
-  const roleLabel = { founders: '👑 Founder', leaders: '⚔ Leader', members: '🎮 Member' };
+  const roleLabel = { founders: '👑 Founder', leaders: '⚔ Leader', supports: '🛡 Support', members: '🎮 Member' };
   list.innerHTML = members.map(m => `
     <div class="admin-member-item">
       ${m.image ? `<img src="${m.image}" class="admin-member-avatar">` : `<div class="admin-member-avatar" style="display:flex;align-items:center;justify-content:center;background:var(--dark2);font-size:1.2rem">👤</div>`}

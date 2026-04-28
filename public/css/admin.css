@@ -175,6 +175,47 @@
   gap: 20px;
 }
 
+.admin-role-group { margin-bottom: 24px; }
+.admin-role-header {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--primary);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--glass-border);
+  margin-bottom: 10px;
+}
+.btn-sm { padding: 6px 10px; font-size: 0.7rem; }
+
+/* TABLET (iPad) */
+@media (max-width: 900px) {
+  .admin-wrap { padding: 80px 20px 60px; }
+  .admin-section { padding: 20px; }
+  .admin-member-actions { gap: 4px; }
+  .btn-sm { padding: 5px 8px; font-size: 0.6rem; }
+}
+
+/* MOBILE */
 @media (max-width: 600px) {
+  .admin-wrap { padding: 70px 12px 50px; }
+  .admin-section { padding: 16px 12px; }
   .form-row, .upload-pair { grid-template-columns: 1fr; }
+  .admin-tabs { gap: 6px; }
+  .tab-btn { min-width: 80px; padding: 10px 12px; font-size: 0.8rem; }
+  .admin-title { letter-spacing: 0.1em; }
+  .admin-member-item { gap: 8px; padding: 10px 8px; }
+  .admin-member-avatar { width: 36px; height: 36px; }
+  .admin-member-name { font-size: 0.9rem; }
+  .admin-member-actions { flex-wrap: wrap; gap: 4px; }
+  .btn-sm { padding: 5px 7px; font-size: 0.6rem; }
+  nav { padding: 10px 12px; }
+  .nav-links a { padding: 5px 8px; font-size: 0.7rem; }
+  .nav-logo { font-size: 0.9rem; }
+  .section-h { font-size: 0.7rem; }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 380px) {
+  .admin-member-actions { flex-direction: column; }
+  .tab-btn { font-size: 0.75rem; padding: 8px 10px; }
 }

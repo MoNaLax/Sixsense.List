@@ -215,8 +215,8 @@ function renderAdminMembers() {
         <div class="admin-member-role">${roleLabel[m.role] || m.role}</div>
       </div>
       <div class="admin-member-actions">
-        <button class="btn btn-ghost btn-sm" onclick="editMember(${m.id})">✏ แก้ไข</button>
-        <button class="btn btn-secondary btn-sm" onclick="deleteMember(${m.id})">🗑</button>
+        <button class="btn btn-ghost btn-sm" onclick="editMember(${m.id})"><i class="fas fa-pen"></i> แก้ไข</button>
+        <button class="btn btn-secondary btn-sm" onclick="deleteMember(${m.id})"><i class="fas fa-trash"></i></button>
       </div>
     </div>
   `).join('');

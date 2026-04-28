@@ -80,7 +80,12 @@ function renderAll(members, query) {
 
 function memberCard(m, query) {
   const roleClass = `role-${m.role}`;
-  const roleLabel = { founders: 'Founder', leaders: 'Leader', supports: 'Support', members: 'Member' }[m.role] || m.role;
+  const roleLabel = {
+    founders: '<i class="fas fa-crown"></i> FOUNDER',
+    leaders: '<i class="fas fa-shield-alt"></i> LEADER',
+    supports: '<i class="fas fa-hands-helping"></i> SUPPORT',
+    members: '<i class="fas fa-gamepad"></i> MEMBER'
+  }[m.role] || m.role;
   const avatar = m.image
     ? `<img src="${m.image}" alt="${m.name}" class="member-avatar">`
     : `<div class="member-avatar-placeholder">👤</div>`;

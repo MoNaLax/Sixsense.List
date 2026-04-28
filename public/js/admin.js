@@ -202,11 +202,11 @@ function renderAdminMembers() {
   if (!members.length) { list.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem">ยังไม่มีสมาชิก</p>'; return; }
 
   const roleLabel = {
-  founders: '<i class="fas fa-crown"></i> Founder',
-  leaders: '<i class="fas fa-shield-alt"></i> Leader',
-  supports: '<i class="fas fa-hands-helping"></i> Support',
-  members: '<i class="fas fa-gamepad"></i> Member'
-};
+    founders: '<i class="fas fa-crown"></i> Founder',
+    leaders: '<i class="fas fa-shield-alt"></i> Leader',
+    supports: '<i class="fas fa-hands-helping"></i> Support',
+    members: '<i class="fas fa-gamepad"></i> Member'
+  };
   list.innerHTML = members.map(m => `
     <div class="admin-member-item">
       ${m.image ? `<img src="${m.image}" class="admin-member-avatar">` : `<div class="admin-member-avatar" style="display:flex;align-items:center;justify-content:center;background:var(--dark2);font-size:1.2rem">👤</div>`}

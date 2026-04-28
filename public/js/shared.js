@@ -20,11 +20,10 @@ class MusicPlayer {
       this.playing = true;
       const toggle = document.getElementById('music-toggle');
       if (toggle) {
-        toggle.textContent = '⏸';
+        toggle.innerHTML = '<i class="fas fa-pause"></i>';
         toggle.classList.add('playing');
       }
     }).catch(()=>{});
-  }
 
   setSource(src) {
     if (!src) return;

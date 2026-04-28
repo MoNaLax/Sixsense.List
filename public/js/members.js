@@ -55,7 +55,7 @@ function renderAll(members, query) {
   const groups = { founders: [], leaders: [], supports: [], members: [] };
   filtered.forEach(m => { if (groups[m.role]) groups[m.role].push(m); else groups.members.push(m); });
 
-  const sectionVisible = { founders: false, leaders: false, members: false };
+  const sectionVisible = { founders: false, leaders: false, supports: false, members: false };
 
    ['founders', 'leaders', 'supports', 'members'].forEach(role => {
     const grid = document.getElementById(`grid-${role}`);

@@ -75,9 +75,8 @@ async function saveSettings() {
       instagram: document.getElementById('s-ig').value.trim()
     }
   };
-  const res = await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-  if ((await res.json()).success) showToast('✅ บันทึก Settings แล้ว');
-}
+  
+async function uploadMedia
 
 async function saveAd() {
   let imageUrl = adminData.adCard?.image || '';

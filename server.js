@@ -19,9 +19,9 @@ let db;
 async function connectDB() {
   try {
     const client = new MongoClient(process.env.MONGODB_URI, {
-      tls: true,
-      tlsAllowInvalidCertificates: false,
-      serverSelectionTimeoutMS: 10000
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 30000,
+      family: 4
 });
     await client.connect();
     db = client.db('sixsense');

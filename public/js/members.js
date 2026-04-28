@@ -137,7 +137,7 @@ if (m.instagram) {
 
   const modal = document.getElementById('modal-content');
   modal.innerHTML = `
-    <button class="modal-close" onclick="closeModal()">✕</button>
+    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
     <div class="modal-banner id-photo-area">
       ${avatarImg}
     </div>

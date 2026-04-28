@@ -56,12 +56,12 @@ class MusicPlayer {
       if (this.playing) {
         this.audio.pause();
         this.playing = false;
-        toggle.textContent = '🎵';
+        toggle.innerHTML = '<i class="fas fa-music"></i>';
         toggle.classList.remove('playing');
       } else {
         this.audio.play().catch(()=>{});
         this.playing = true;
-        toggle.textContent = '⏸';
+        toggle.innerHTML = '<i class="fas fa-pause"></i>';
         toggle.classList.add('playing');
       }
       volControl.classList.toggle('show');

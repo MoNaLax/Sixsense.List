@@ -103,7 +103,7 @@ if (!upload) {
       cb(null, Date.now() + '-' + Math.round(Math.random() * 1e9) + path.extname(file.originalname));
     }
   });
-  upload = multer({ storage, limits: { fileSize: 20 * 1024 * 1024 } });
+  upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
   console.log('📁 Local storage enabled');
 }
 

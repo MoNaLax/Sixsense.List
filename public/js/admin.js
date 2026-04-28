@@ -80,7 +80,8 @@ async function saveSettings() {
 }
 
 async function saveAd() {
-  // Upload image if selected
+  let imageUrl = adminData.adCard?.image || '';
+
   const imgFile = document.getElementById('ad-image-file').files[0];
   if (imgFile) {
     const fd = new FormData();
@@ -88,15 +89,20 @@ async function saveAd() {
     fd.append('type', 'adImage');
     const r = await fetch('/api/upload', { method: 'POST', body: fd }).then(r => r.json());
     if (!r.success) return showToast('❌ อัปโหลดรูป Ad ล้มเหลว');
+    imageUrl = r.url;
   }
 
   const body = {
     adCard: {
+      image: imageUrl,
       title: document.getElementById('ad-title').value.trim(),
       content: document.getElementById('ad-content').value.trim(),
       link: document.getElementById('ad-link').value.trim()
     }
   };
+  const res = await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if ((await res.json()).success) showToast('✅ บันทึก Ad Card แล้ว');
+}
   const res = await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   if ((await res.json()).success) showToast('✅ บันทึก Ad Card แล้ว');
 }

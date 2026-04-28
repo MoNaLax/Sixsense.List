@@ -1,22 +1,13 @@
 let adminData = {};
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Check authentication
   try {
     const dataRes = await fetch('/api/data');
-    if (dataRes.status === 401) {
-      window.location.href = '/login';
-      return;
-    }
+    if (dataRes.status === 401) { window.location.href = '/login'; return; }
     adminData = await dataRes.json();
-  } catch (err) {
-    console.error('Failed to load data:', err);
-  }
-  
+  } catch (err) { console.error('Failed to load data:', err); }
   fillSettings();
   renderAdminMembers();
-
-  // Tabs
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -25,8 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
     });
   });
-
-  // Image preview on file change
   setupPreview('ad-image-file', 'ad-image-preview');
   setupPreview('m-image-file', 'm-image-preview');
   setupPreview('logo-file', 'logo-preview');
@@ -34,9 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupPreview('member-bg-file', 'member-bg-preview');
 });
 
-function logout() {
-  window.location.href = '/logout';
-}
+function logout() { window.location.href = '/logout'; }
 
 function setupPreview(inputId, previewId) {
   const input = document.getElementById(inputId);
@@ -75,12 +62,12 @@ async function saveSettings() {
       instagram: document.getElementById('s-ig').value.trim()
     }
   };
-  
-async function uploadMedia
+  const res = await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if ((await res.json()).success) showToast('✅ บันทึก Settings แล้ว');
+}
 
 async function saveAd() {
   let imageUrl = adminData.adCard?.image || '';
-
   const imgFile = document.getElementById('ad-image-file').files[0];
   if (imgFile) {
     const fd = new FormData();
@@ -90,7 +77,6 @@ async function saveAd() {
     if (!r.success) return showToast('❌ อัปโหลดรูป Ad ล้มเหลว');
     imageUrl = r.url;
   }
-
   const body = {
     adCard: {
       image: imageUrl,
@@ -99,9 +85,6 @@ async function saveAd() {
       link: document.getElementById('ad-link').value.trim()
     }
   };
-  const res = await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-  if ((await res.json()).success) showToast('✅ บันทึก Ad Card แล้ว');
-}
   const res = await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   if ((await res.json()).success) showToast('✅ บันทึก Ad Card แล้ว');
 }
@@ -115,9 +98,7 @@ async function uploadMedia(type, inputId, previewId) {
   const r = await fetch('/api/upload', { method: 'POST', body: fd }).then(r => r.json());
   if (r.success) {
     showToast('✅ อัปโหลดสำเร็จ');
-    if (previewId && r.url) {
-      document.getElementById(previewId).innerHTML = `<img src="${r.url}">`;
-    }
+    if (previewId && r.url) document.getElementById(previewId).innerHTML = `<img src="${r.url}">`;
   } else {
     showToast('❌ อัปโหลดล้มเหลว');
   }
@@ -126,8 +107,6 @@ async function uploadMedia(type, inputId, previewId) {
 async function saveMember() {
   const name = document.getElementById('m-name').value.trim();
   if (!name) return showToast('⚠️ กรุณากรอกชื่อสมาชิก');
-
-  // Upload image if present
   const imgFile = document.getElementById('m-image-file').files[0];
   let imageUrl = document.getElementById('m-image-url').value;
   if (imgFile) {
@@ -136,7 +115,6 @@ async function saveMember() {
     const r = await fetch('/api/upload/member', { method: 'POST', body: fd }).then(r => r.json());
     if (r.success) imageUrl = r.url;
   }
-
   const editId = document.getElementById('edit-id').value;
   const member = {
     name,
@@ -146,7 +124,6 @@ async function saveMember() {
     bio: document.getElementById('m-bio').value.trim(),
     image: imageUrl
   };
-
   let res;
   if (editId) {
     res = await fetch(`/api/members/${editId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(member) });
@@ -205,7 +182,6 @@ function renderAdminMembers() {
   if (!list) return;
   const members = adminData.members || [];
   if (!members.length) { list.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem">ยังไม่มีสมาชิก</p>'; return; }
-
   const roleLabel = {
     founders: '<i class="fas fa-crown"></i> Founder',
     leaders: '<i class="fas fa-shield-alt"></i> Leader',

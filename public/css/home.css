@@ -56,12 +56,9 @@
 .logo-frame-wrap { margin-bottom: 40px; }
 
 .logo-frame {
-/* เปลี่ยนจาก 260px เป็นขนาดที่คุณต้องการ (รูปแรกจะดูเป็นสี่เหลี่ยมผืนผ้าแนวนอนนิดๆ) */
-  width: 800px; 
-  height: 400px; 
-  
-  /* แก้จาก 50% เป็นความโค้งของมุม (ประมาณ 30px - 50px กำลังสวยแบบรูปที่ 1) */
-  border-radius: 40px; 
+  width: min(800px, 90vw);
+  height: min(400px, 45vw);
+  border-radius: 40px;
   
   position: relative;
   display: flex;
@@ -82,16 +79,16 @@
 }
 
 .logo-hex {
-  width: 220px;
-  height: 220px;
+  width: min(220px, 30vw);
+  height: min(220px, 30vw);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .logo-inner {
-  width: 300px;
-  height: 300px;
+  width: min(300px, 35vw);
+  height: min(300px, 35vw);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -194,8 +191,15 @@
 }
 
 /* RESPONSIVE */
+@media (max-width: 768px) {
+  .logo-frame { width: 90vw; height: 45vw; border-radius: 24px; }
+  .logo-hex { width: 25vw; height: 25vw; }
+  .logo-inner { width: 28vw; height: 28vw; }
+  .home-main { padding: 80px 16px 40px; }
+}
+
 @media (max-width: 480px) {
-  .logo-frame { width: 200px; height: 200px; }
-  .logo-hex { width: 170px; height: 170px; }
-  .logo-inner { width: 150px; height: 150px; }
+  .logo-frame { width: 92vw; height: 48vw; border-radius: 20px; }
+  .logo-hex { width: 22vw; height: 22vw; }
+  .logo-inner { width: 25vw; height: 25vw; }
 }

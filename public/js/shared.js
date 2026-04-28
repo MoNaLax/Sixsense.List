@@ -24,6 +24,7 @@ class MusicPlayer {
         toggle.classList.add('playing');
       }
     }).catch(()=>{});
+  }
 
   setSource(src) {
     if (!src) return;

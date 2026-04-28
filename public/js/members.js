@@ -34,10 +34,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function renderStats() {
-  const counts = { founders: 0, leaders: 0, members: 0 };
+  const counts = { founders: 0, leaders: 0, supports: 0, members: 0 };
   allMembers.forEach(m => { if (counts[m.role] !== undefined) counts[m.role]++; });
   document.getElementById('stat-founders').textContent = counts.founders;
   document.getElementById('stat-leaders').textContent = counts.leaders;
+  document.getElementById('stat-supports').textContent = counts.supports;
   document.getElementById('stat-members').textContent = counts.members;
 }
 

@@ -52,12 +52,12 @@ function renderAll(members, query) {
   const q = query.toLowerCase();
   const filtered = q ? members.filter(m => m.name.toLowerCase().includes(q)) : members;
 
-  const groups = { founders: [], leaders: [], members: [] };
+  const groups = { founders: [], leaders: [], supports: [], members: [] };
   filtered.forEach(m => { if (groups[m.role]) groups[m.role].push(m); else groups.members.push(m); });
 
   const sectionVisible = { founders: false, leaders: false, members: false };
 
-  ['founders', 'leaders', 'members'].forEach(role => {
+   ['founders', 'leaders', 'supports', 'members'].forEach(role => {
     const grid = document.getElementById(`grid-${role}`);
     const section = document.getElementById(`section-${role}`);
     if (!grid || !section) return;
@@ -80,7 +80,7 @@ function renderAll(members, query) {
 
 function memberCard(m, query) {
   const roleClass = `role-${m.role}`;
-  const roleLabel = { founders: 'Founder', leaders: 'Leader', members: 'Member' }[m.role] || m.role;
+  const roleLabel = { founders: 'Founder', leaders: 'Leader', supports: 'Support', members: 'Member' }[m.role] || m.role;
   const avatar = m.image
     ? `<img src="${m.image}" alt="${m.name}" class="member-avatar">`
     : `<div class="member-avatar-placeholder">👤</div>`;
@@ -99,7 +99,7 @@ function openModal(id) {
   if (!m) return;
 
   const roleClass = `role-${m.role}`;
-  const roleLabel = { founders: '👑 FOUNDER', leaders: '⚔ LEADER', members: '🎮 MEMBER' }[m.role] || m.role;
+  const roleLabel = { founders: '👑 FOUNDER', leaders: '⚔ LEADER', supports: '🛡 SUPPORT', members: '🎮 MEMBER' }[m.role] || m.role;
 
 const banner = m.image
   ? `

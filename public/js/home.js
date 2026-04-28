@@ -22,7 +22,7 @@ function showAdDialog(ad) {
   const content = document.getElementById('ad-card-content');
   if (!dialog || !content) return;
   content.innerHTML = `
-    <button class="ad-close" onclick="document.getElementById('ad-dialog').close()">✕</button>
+    <button class="ad-close" onclick="document.getElementById('ad-dialog').close()"><i class="fas fa-times"></i></button>
     ${ad.image ? `<img src="${ad.image}" alt="ad" class="ad-image">` : `<div class="ad-image-placeholder">🎮</div>`}
     <div class="ad-body">
       <div class="ad-label">ติดตามเรา</div>

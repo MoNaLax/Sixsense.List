@@ -522,7 +522,6 @@ nav {
   .social-float { display: none; }
   .back-btn { top: 14px; left: 14px; padding: 8px 12px; font-size: 0.65rem; }
   .ad-card { max-width: 92vw; }
-  .ad-image { height: 200px; }
 }
 
 @media (max-width: 480px) {

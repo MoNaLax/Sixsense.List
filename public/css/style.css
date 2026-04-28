@@ -494,6 +494,20 @@ nav {
   font-family: 'Rajdhani', sans-serif;
   letter-spacing: 0.05em;
 }
+
+/* AD DIALOG */
+#ad-dialog::backdrop {
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+}
+.ad-dialog-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
 @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
 /* RESPONSIVE */

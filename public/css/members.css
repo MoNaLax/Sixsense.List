@@ -187,6 +187,7 @@
 }
 .role-founders { background: rgba(255,214,10,0.15); color: var(--accent); border: 1px solid rgba(255,214,10,0.3); }
 .role-leaders { background: rgba(0,245,255,0.1); color: var(--primary); border: 1px solid rgba(0,245,255,0.25); }
+.role-supports { background: rgba(255,0,110,0.1); color: var(--secondary); border: 1px solid rgba(255,0,110,0.25); }
 .role-members { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
 
 .member-card-view {

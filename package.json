@@ -10,7 +10,7 @@
   "engines": {
   "node": "20.x"
 },
-  pendencies": {
+  dependencies": {
     "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",

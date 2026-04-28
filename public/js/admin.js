@@ -182,23 +182,68 @@ function renderAdminMembers() {
   if (!list) return;
   const members = adminData.members || [];
   if (!members.length) { list.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem">ยังไม่มีสมาชิก</p>'; return; }
+
   const roleLabel = {
     founders: '<i class="fas fa-crown"></i> Founder',
     leaders: '<i class="fas fa-shield-alt"></i> Leader',
     supports: '<i class="fas fa-hands-helping"></i> Support',
     members: '<i class="fas fa-gamepad"></i> Member'
   };
-  list.innerHTML = members.map(m => `
-    <div class="admin-member-item">
-      ${m.image ? `<img src="${m.image}" class="admin-member-avatar">` : `<div class="admin-member-avatar" style="display:flex;align-items:center;justify-content:center;background:var(--dark2);font-size:1.2rem">👤</div>`}
-      <div class="admin-member-info">
-        <div class="admin-member-name">${m.name}</div>
-        <div class="admin-member-role">${roleLabel[m.role] || m.role}</div>
-      </div>
-      <div class="admin-member-actions">
-        <button class="btn btn-ghost btn-sm" onclick="editMember(${m.id})"><i class="fas fa-pen"></i> แก้ไข</button>
-        <button class="btn btn-secondary btn-sm" onclick="deleteMember(${m.id})"><i class="fas fa-trash"></i></button>
-      </div>
-    </div>
-  `).join('');
+  const roleOrder = ['founders', 'leaders', 'supports', 'members'];
+  const groups = { founders: [], leaders: [], supports: [], members: [] };
+  members.forEach(m => { if (groups[m.role]) groups[m.role].push(m); else groups.members.push(m); });
+
+  let html = '';
+  roleOrder.forEach(role => {
+    if (!groups[role].length) return;
+    html += `<div class="admin-role-group">
+      <div class="admin-role-header">${roleLabel[role]}</div>
+      ${groups[role].map((m, i) => `
+        <div class="admin-member-item" data-id="${m.id}">
+          ${m.image ? `<img src="${m.image}" class="admin-member-avatar">` : `<div class="admin-member-avatar" style="display:flex;align-items:center;justify-content:center;background:var(--dark2);font-size:1.2rem">👤</div>`}
+          <div class="admin-member-info">
+            <div class="admin-member-name">${m.name}</div>
+            <div class="admin-member-role">${roleLabel[m.role] || m.role}</div>
+          </div>
+          <div class="admin-member-actions">
+            <button class="btn btn-ghost btn-sm" onclick="moveInGroup('${role}', ${i}, -1)" ${i === 0 ? 'disabled' : ''}><i class="fas fa-chevron-up"></i></button>
+            <button class="btn btn-ghost btn-sm" onclick="moveInGroup('${role}', ${i}, 1)" ${i === groups[role].length - 1 ? 'disabled' : ''}><i class="fas fa-chevron-down"></i></button>
+            <button class="btn btn-ghost btn-sm" onclick="editMember(${m.id})"><i class="fas fa-pen"></i></button>
+            <button class="btn btn-secondary btn-sm" onclick="deleteMember(${m.id})"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+  });
+  list.innerHTML = html;
 }
+
+async function moveInGroup(role, index, direction) {
+  const members = adminData.members || [];
+  const groups = { founders: [], leaders: [], supports: [], members: [] };
+  members.forEach(m => { if (groups[m.role]) groups[m.role].push(m); else groups.members.push(m); });
+
+  const group = groups[role];
+  const newIndex = index + direction;
+  if (newIndex < 0 || newIndex >= group.length) return;
+
+  // swap
+  [group[index], group[newIndex]] = [group[newIndex], group[index]];
+
+  // rebuild full members array
+  const roleOrder = ['founders', 'leaders', 'supports', 'members'];
+  const newMembers = roleOrder.flatMap(r => groups[r]);
+
+  // update order in DB
+  const res = await fetch('/api/data', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ members: newMembers })
+  }).then(r => r.json());
+
+  if (res.success) {
+    adminData.members = newMembers;
+    renderAdminMembers();
+  }
+}
+

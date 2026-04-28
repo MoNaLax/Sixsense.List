@@ -83,7 +83,7 @@ if (USE_CLOUDINARY) {
 // ใช้ memoryStorage เสมอ แล้ว upload ไป Cloudinary เอง
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 50 * 1024 * 1024 }
+  limits: { fileSize: 100 * 1024 * 1024 }
 });
 
 const uploadFile = (buffer, mimetype, originalname) => {
@@ -93,7 +93,13 @@ const uploadFile = (buffer, mimetype, originalname) => {
       const resourceType = isAudio ? 'video' : 'auto';
       const publicId = Date.now() + '-' + Math.round(Math.random() * 1e6);
       cloudinary.uploader.upload_stream(
-        { folder: 'sixsense', resource_type: resourceType, public_id: publicId },
+        {
+          folder: 'sixsense',
+          resource_type: resourceType,
+          public_id: publicId,
+          quality: 'auto',
+          fetch_format: 'auto'
+        },
         (error, result) => {
           if (error) return reject(error);
           resolve(result.secure_url);

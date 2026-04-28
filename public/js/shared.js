@@ -36,11 +36,11 @@ class MusicPlayer {
     if (!el) return;
     el.innerHTML = `
       <div class="volume-control" id="vol-control">
-        <button class="vol-btn" id="vol-up">🔊</button>
+        <button class="vol-btn" id="vol-up"><i class="fas fa-volume-up"></i></button>
         <div class="vol-display" id="vol-disp">${Math.round(this.volume*100)}%</div>
-        <button class="vol-btn" id="vol-down">🔉</button>
+        <button class="vol-btn" id="vol-down"><i class="fas fa-volume-down"></i></button>
       </div>
-      <button class="music-toggle" id="music-toggle">🎵</button>
+      <button class="music-toggle" id="music-toggle"><i class="fas fa-music"></i></button>
     `;
   }
 

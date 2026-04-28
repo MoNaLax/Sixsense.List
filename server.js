@@ -88,7 +88,7 @@ if (USE_CLOUDINARY) {
         public_id: `${Date.now()}-${Math.round(Math.random() * 1e6)}`
       })
     });
-    upload = multer({ storage, limits: { fileSize: 20 * 1024 * 1024 } });
+    upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
     console.log('✅ Cloudinary enabled');
   } catch (e) {
     console.log('⚠️ Cloudinary error: ' + e.message + ' — using local storage');
@@ -123,6 +123,12 @@ app.use(session({
 }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use((err, req, res, next) => {
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    return res.status(400).json({ error: 'ไฟล์ใหญ่เกินไป (max 50MB)' });
+  }
+  res.status(500).json({ error: err.message });
+});
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'sixsense123';

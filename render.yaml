@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: sixsense
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ADMIN_USERNAME
+        generateValue: false
+      - key: ADMIN_PASSWORD
+        generateValue: false

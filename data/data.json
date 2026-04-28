@@ -1,0 +1,43 @@
+{
+  "gangName": "SIXSENSE",
+  "partners": [
+    "FivedoubleEight",
+    "Sabudbob",
+    "Konami"
+  ],
+  "logo": "/uploads/1777312747988-441321832.png",
+  "homeBg": "/uploads/1777313153780-238518174.gif",
+  "memberBg": "/uploads/1777313153039-746074704.gif",
+  "homeMusic": "/uploads/1777292340402-878154590.mp3",
+  "memberMusic": "/uploads/1777292308502-949370584.mp3",
+  "adCard": {
+    "image": "/uploads/1777312919143-958944976.jpg",
+    "title": "SIXSENSE Official Page",
+    "content": "ติดตามข่าวสารและกิจกรรมของแก๊ง SIXSENSE ได้ที่เพจเฟสบุ๊กของเรา",
+    "link": "https://www.facebook.com/profile.php?id=61560960581580"
+  },
+  "socialLinks": {
+    "facebook": "https://www.facebook.com/profile.php?id=61560960581580",
+    "instagram": "https://instagram.com"
+  },
+  "members": [
+    {
+      "name": "Sumlee Sabudbob",
+      "role": "leaders",
+      "facebook": "https://www.facebook.com/profile.php?id=100075550235060",
+      "instagram": "",
+      "bio": "",
+      "image": "/uploads/1777296024494-410782762.jpg",
+      "id": 1777294731602
+    },
+    {
+      "name": "Jxstwhite Sixsense",
+      "role": "founders",
+      "facebook": "https://www.facebook.com/jxstwhite.588",
+      "instagram": "",
+      "bio": "",
+      "image": "/uploads/1777295298324-727134940.jpg",
+      "id": 1777294971173
+    }
+  ]
+}

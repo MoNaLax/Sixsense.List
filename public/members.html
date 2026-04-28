@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIXSENSE – Members</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/members.css">
+</head>
+<body>
+  <div class="bg-layer" id="bg-layer"></div>
+  <div class="noise"></div>
+
+  <div class="social-float" id="social-float"></div>
+
+  <a href="/" class="back-btn">
+  <i class="fas fa-arrow-left"></i>
+  <span>Back</span>
+</a>
+
+  <div class="content">
+    <div class="members-wrap">
+
+      <!-- HEADER -->
+      <div class="members-header">
+        <h1 class="gang-name glitch" id="gang-name" data-text="SIXSENSE">SIXSENSE</h1>
+        <p class="members-subtitle">OFFICIAL MEMBER ROSTER</p>
+        <div class="cyber-line" style="max-width:500px;margin:16px auto;"></div>
+
+        <!-- STATS -->
+        <div class="stats-row" id="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-chess-king"></i></div>
+            <div class="stat-num" id="stat-founders">0</div>
+            <div class="stat-label">Founders</div>
+          </div>
+          <div class="stat-divider">◈</div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-user-shield"></i></div>
+            <div class="stat-num" id="stat-leaders">0</div>
+            <div class="stat-label">Leaders</div>
+          </div>
+          <div class="stat-divider">◈</div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-num" id="stat-members">0</div>
+            <div class="stat-label">Members</div>
+          </div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-wrap">
+          <input type="text" id="search-input" class="search-input" placeholder="ค้นหาสมาชิก...">
+        </div>
+      </div>
+
+      <!-- SECTIONS -->
+      <div id="members-content">
+        <div class="section-block" id="section-founders">
+          <div class="section-title">
+            <span class="section-icon"><i class="fas fa-crown"></i></span>
+            <span>FOUNDERS</span>
+            <div class="section-line"></div>
+          </div>
+          <div class="members-grid" id="grid-founders"></div>
+        </div>
+        <div class="section-block" id="section-leaders">
+          <div class="section-title">
+            <span class="section-icon"><i class="fas fa-sword"></i></span>
+            <span>LEADERS</span>
+            <div class="section-line"></div>
+          </div>
+          <div class="members-grid" id="grid-leaders"></div>
+        </div>
+        <div class="section-block" id="section-members">
+          <div class="section-title">
+            <span class="section-icon"><i class="fas fa-gamepad"></i></span>
+            <span>MEMBERS</span>
+            <div class="section-line"></div>
+          </div>
+          <div class="members-grid" id="grid-members"></div>
+        </div>
+      </div>
+
+      <div id="no-results" class="no-results" style="display:none">
+        <div class="no-results-icon"><i class="fas fa-search"></i></div>
+        <p>ไม่พบสมาชิกที่ค้นหา</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MEMBER DETAIL MODAL -->
+  <div class="modal-overlay" id="member-modal" style="display:none">
+    <div class="member-modal glass-card" id="modal-content"></div>
+  </div>
+
+  <!-- MUSIC PLAYER -->
+  <div class="music-player" id="music-player"></div>
+
+  <script src="/js/shared.js"></script>
+  <script src="/js/members.js"></script>
+</body>
+</html>

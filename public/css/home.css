@@ -1,0 +1,201 @@
+.home-main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 24px 60px;
+  gap: 0;
+}
+
+/* GANG NAME */
+.gang-name-wrap { text-align: center; margin-bottom: 8px; }
+.gang-name {
+  font-size: clamp(3rem, 12vw, 8rem);
+  letter-spacing: 0.2em;
+  line-height: 1;
+}
+
+/* PARTNERS */
+.partners-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
+  max-width: 700px;
+}
+.partner-tag {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 5px 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+}
+.partner-tag:hover { border-color: var(--primary); color: var(--primary); }
+.partner-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
+  opacity: 0.7;
+}
+
+/* LOGO FRAME */
+.logo-frame-wrap { margin-bottom: 40px; }
+
+.logo-frame {
+/* เปลี่ยนจาก 260px เป็นขนาดที่คุณต้องการ (รูปแรกจะดูเป็นสี่เหลี่ยมผืนผ้าแนวนอนนิดๆ) */
+  width: 800px; 
+  height: 400px; 
+  
+  /* แก้จาก 50% เป็นความโค้งของมุม (ประมาณ 30px - 50px กำลังสวยแบบรูปที่ 1) */
+  border-radius: 40px; 
+  
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* เส้นขอบและเงา (คงเดิมหรือปรับตามสีที่ชอบ) */
+  border: 2px solid var(--primary) !important;
+  box-shadow: 0 0 40px rgba(0,245,255,0.2), 
+              0 0 80px rgba(0,245,255,0.1), 
+              inset 0 0 40px rgba(0,245,255,0.05) !important;
+  
+  /* ใช้พื้นหลังโปร่งแสงเล็กน้อยเพื่อให้เหมือนกระจกแบบรูปที่ 1 */
+  background: rgba(255, 255, 255, 0.03); 
+  backdrop-filter: blur(5px); 
+  
+  overflow: hidden;
+}
+
+.logo-hex {
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-inner {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: logoFlip 6s ease-in-out infinite;
+  position: relative;
+  perspective: 1000px;
+}
+
+@keyframes logoFlip {
+  0%, 100% { transform: rotateY(0deg); }
+  50% { transform: rotateY(180deg); }
+}
+
+.logo-inner:hover { animation-play-state: paused; }
+
+.logo-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logo-placeholder {
+  font-size: 5rem;
+  color: var(--primary);
+  opacity: 0.3;
+  animation: logoFlip 6s ease-in-out infinite;
+}
+
+.frame-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.frame-glow-1 {
+  border: 1px solid rgba(0,245,255,0.3);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+.frame-glow-2 {
+  width: 110%;
+  height: 110%;
+  border: 1px solid rgba(0,245,255,0.1);
+  animation: glowPulse 2s ease-in-out infinite 1s;
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.02); }
+}
+
+.scan-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,245,255,0.6), transparent);
+  animation: scanAnim 3s linear infinite;
+  pointer-events: none;
+}
+@keyframes scanAnim {
+  0% { top: -10%; }
+  100% { top: 110%; }
+}
+
+/* CTA AREA */
+.cta-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-enter {
+  padding: 16px 48px;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  position: relative;
+}
+
+.btn-enter::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), #0080ff, var(--secondary));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.btn-enter:hover::after { opacity: 1; }
+
+.powered-by {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.powered-by span {
+  color: var(--primary);
+  font-family: 'Orbitron', monospace;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .logo-frame { width: 200px; height: 200px; }
+  .logo-hex { width: 170px; height: 170px; }
+  .logo-inner { width: 150px; height: 150px; }
+}

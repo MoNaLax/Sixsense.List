@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIXSENSE – Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="bg-layer" id="bg-layer" style="background-image:linear-gradient(135deg,#030712,#0a0f1e)"></div>
+  <div class="noise"></div>
+
+  <nav>
+    <a href="/" class="nav-logo">SIXSENSE</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/members">Members</a>
+      <a href="/admin" class="active"><i class="fas fa-cog"></i> Admin</a>
+      <a href="#" onclick="logout()" style="color:#ff4444;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="admin-wrap">
+
+      <div class="admin-header">
+        <h1 class="admin-title">ADMIN PANEL</h1>
+        <p class="admin-sub">จัดการข้อมูลแก๊ง SIXSENSE</p>
+        <div class="cyber-line" style="max-width:300px;margin:12px auto;"></div>
+      </div>
+
+      <!-- TABS -->
+      <div class="admin-tabs">
+        <button class="tab-btn active" data-tab="settings"><i class="fas fa-cog"></i> Settings</button>
+        <button class="tab-btn" data-tab="members"><i class="fas fa-users"></i> Members</button>
+        <button class="tab-btn" data-tab="media"><i class="fas fa-image"></i> Media</button>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div class="tab-content active" id="tab-settings">
+        <div class="admin-section glass-card">
+          <h2 class="section-h"><i class="fas fa-tags"></i> Gang Info</h2>
+          <div class="form-group">
+            <label>ชื่อแก๊ง</label>
+            <input type="text" id="s-gangname" class="admin-input" placeholder="SIXSENSE">
+          </div>
+          <div class="form-group">
+            <label>Partners (คั่นด้วย comma)</label>
+            <input type="text" id="s-partners" class="admin-input" placeholder="Partner A, Partner B">
+          </div>
+          <div class="form-group">
+            <label>Facebook URL</label>
+            <input type="url" id="s-fb" class="admin-input" placeholder="https://facebook.com/...">
+          </div>
+          <div class="form-group">
+            <label>Instagram URL</label>
+            <input type="url" id="s-ig" class="admin-input" placeholder="https://instagram.com/...">
+          </div>
+          <button class="btn btn-primary" onclick="saveSettings()">💾 บันทึก Settings</button>
+        </div>
+
+        <div class="admin-section glass-card">
+          <h2 class="section-h"><i class="fas fa-bullhorn"></i> Ad Card</h2>
+          <div class="form-group">
+            <label>ชื่อ/หัวข้อ</label>
+            <input type="text" id="ad-title" class="admin-input" placeholder="ชื่อเพจ">
+          </div>
+          <div class="form-group">
+            <label>เนื้อหา</label>
+            <textarea id="ad-content" class="admin-input" rows="3" placeholder="รายละเอียด..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>ลิงก์ปุ่ม</label>
+            <input type="url" id="ad-link" class="admin-input" placeholder="https://...">
+          </div>
+          <div class="form-group">
+            <label>รูปภาพ Ad</label>
+            <input type="file" id="ad-image-file" class="file-input" accept="image/*">
+            <div id="ad-image-preview" class="preview-box"></div>
+          </div>
+          <button class="btn btn-primary" onclick="saveAd()"><i class="fas fa-save"></i> บันทึก Ad</button>
+        </div>
+      </div>
+
+      <!-- MEMBERS TAB -->
+      <div class="tab-content" id="tab-members">
+        <div class="admin-section glass-card">
+          <h2 class="section-h"><i class="fas fa-plus-circle"></i> เพิ่ม / แก้ไข สมาชิก</h2>
+          <input type="hidden" id="edit-id">
+          <div class="form-row">
+            <div class="form-group">
+              <label>ชื่อ *</label>
+              <input type="text" id="m-name" class="admin-input" placeholder="ชื่อสมาชิก">
+            </div>
+            <div class="form-group">
+              <label>ตำแหน่ง *</label>
+              <select id="m-role" class="admin-input">
+                <option value="founders"><i class="fas fa-crown"></i> Founder</option>
+                <option value="leaders"><i class="fas fa-sword"></i> Leader</option>
+                <option value="members" selected><i class="fas fa-gamepad"></i> Member</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Facebook URL</label>
+              <input type="url" id="m-fb" class="admin-input" placeholder="https://facebook.com/...">
+            </div>
+            <div class="form-group">
+              <label>Instagram URL</label>
+              <input type="url" id="m-ig" class="admin-input" placeholder="https://instagram.com/...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Bio</label>
+            <textarea id="m-bio" class="admin-input" rows="2" placeholder="รายละเอียดสมาชิก..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>รูปภาพ / GIF</label>
+            <input type="file" id="m-image-file" class="file-input" accept="image/*,.gif">
+            <div id="m-image-preview" class="preview-box"></div>
+            <input type="hidden" id="m-image-url">
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="saveMember()"><i class="fas fa-save"></i> บันทึกสมาชิก</button>
+            <button class="btn btn-ghost" onclick="clearMemberForm()"><i class="fas fa-times"></i> ล้างฟอร์ม</button>
+          </div>
+        </div>
+
+        <div class="admin-section glass-card">
+          <h2 class="section-h"><i class="fas fa-users"></i> รายชื่อสมาชิก</h2>
+          <div id="admin-member-list"></div>
+        </div>
+      </div>
+
+      <!-- MEDIA TAB -->
+      <div class="tab-content" id="tab-media">
+        <div class="admin-section glass-card">
+          <h2 class="section-h"><i class="fas fa-image"></i> Logo</h2>
+          <div class="form-group">
+            <input type="file" id="logo-file" class="file-input" accept="image/*,.gif">
+            <div id="logo-preview" class="preview-box"></div>
+          </div>
+          <button class="btn btn-primary" onclick="uploadMedia('logo', 'logo-file', 'logo-preview')"><i class="fas fa-upload"></i> อัปโหลด Logo</button>
+        </div>
+
+        <div class="admin-section glass-card">
+          <h2 class="section-h"><i class="fas fa-palette"></i> Wallpaper</h2>
+          <div class="upload-pair">
+            <div>
+              <p class="form-label">Home Background</p>
+              <input type="file" id="home-bg-file" class="file-input" accept="image/*">
+              <div id="home-bg-preview" class="preview-box"></div>
+              <button class="btn btn-outline" style="margin-top:8px" onclick="uploadMedia('homeBg','home-bg-file','home-bg-preview')"><i class="fas fa-upload"></i> อัปโหลด</button>
+            </div>
+            <div>
+              <p class="form-label">Members Background</p>
+              <input type="file" id="member-bg-file" class="file-input" accept="image/*">
+              <div id="member-bg-preview" class="preview-box"></div>
+              <button class="btn btn-outline" style="margin-top:8px" onclick="uploadMedia('memberBg','member-bg-file','member-bg-preview')"><i class="fas fa-upload"></i> อัปโหลด</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-section glass-card">
+          <h2 class="section-h"><i class="fas fa-music"></i> เพลงประจำหน้า</h2>
+          <div class="upload-pair">
+            <div>
+              <p class="form-label">Home Music</p>
+              <input type="file" id="home-music-file" class="file-input" accept="audio/*">
+              <button class="btn btn-outline" style="margin-top:8px" onclick="uploadMedia('homeMusic','home-music-file',null)"><i class="fas fa-upload"></i> อัปโหลด</button>
+            </div>
+            <div>
+              <p class="form-label">Members Music</p>
+              <input type="file" id="member-music-file" class="file-input" accept="audio/*">
+              <button class="btn btn-outline" style="margin-top:8px" onclick="uploadMedia('memberMusic','member-music-file',null)"><i class="fas fa-upload"></i> อัปโหลด</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/shared.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

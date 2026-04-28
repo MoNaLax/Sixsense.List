@@ -58,7 +58,7 @@ const getFullData = async () => {
 };
 
 // ============================================================
-// FILE UPLOAD
+// FILE UPLOAD — ใช้ multer memory + upload ไป Cloudinary เอง
 // ============================================================
 const UPLOADS_DIR = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
@@ -69,46 +69,43 @@ const USE_CLOUDINARY = !!(
   process.env.CLOUDINARY_API_SECRET
 );
 
-let upload;
-
+let cloudinary;
 if (USE_CLOUDINARY) {
-  try {
-    const cloudinary = require('cloudinary').v2;
-    const { CloudinaryStorage } = require('multer-storage-cloudinary');
-    cloudinary.config({
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET
-    });
-    const storage = new CloudinaryStorage({
-      cloudinary,
-      params: (req, file) => ({
-        folder: 'sixsense',
-        resource_type: file.mimetype.startsWith('audio') ? 'video' : 'auto',
-        public_id: `${Date.now()}-${Math.round(Math.random() * 1e6)}`
-      })
-    });
-    upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
-    console.log('✅ Cloudinary enabled');
-  } catch (e) {
-    console.log('⚠️ Cloudinary error: ' + e.message + ' — using local storage');
-    upload = null;
-  }
+  cloudinary = require('cloudinary').v2;
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+  });
+  console.log('✅ Cloudinary configured');
 }
 
-if (!upload) {
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + '-' + Math.round(Math.random() * 1e9) + path.extname(file.originalname));
+// ใช้ memoryStorage เสมอ แล้ว upload ไป Cloudinary เอง
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 }
+});
+
+const uploadFile = (buffer, mimetype, originalname) => {
+  return new Promise((resolve, reject) => {
+    if (USE_CLOUDINARY) {
+      const isAudio = mimetype.startsWith('audio');
+      const resourceType = isAudio ? 'video' : 'auto';
+      const publicId = Date.now() + '-' + Math.round(Math.random() * 1e6);
+      cloudinary.uploader.upload_stream(
+        { folder: 'sixsense', resource_type: resourceType, public_id: publicId },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result.secure_url);
+        }
+      ).end(buffer);
+    } else {
+      const filename = Date.now() + '-' + Math.round(Math.random() * 1e9) + path.extname(originalname);
+      fs.writeFileSync(path.join(UPLOADS_DIR, filename), buffer);
+      resolve('/uploads/' + filename);
     }
   });
-  upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
-  console.log('📁 Local storage enabled');
-}
-
-const getFileUrl = (file) =>
-  (file.path && file.path.startsWith('http')) ? file.path : '/uploads/' + file.filename;
+};
 
 // ============================================================
 // MIDDLEWARE
@@ -123,12 +120,6 @@ app.use(session({
 }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use((err, req, res, next) => {
-  if (err.code === 'LIMIT_FILE_SIZE') {
-    return res.status(400).json({ error: 'ไฟล์ใหญ่เกินไป (max 50MB)' });
-  }
-  res.status(500).json({ error: err.message });
-});
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'sixsense123';
@@ -199,7 +190,7 @@ app.post('/api/settings', isAuthenticated, async (req, res) => {
 app.post('/api/upload', isAuthenticated, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No file' });
-    const url = getFileUrl(req.file);
+    const url = await uploadFile(req.file.buffer, req.file.mimetype, req.file.originalname);
     const { type } = req.body;
     const update = {};
     if (type === 'logo') update.logo = url;
@@ -212,12 +203,21 @@ app.post('/api/upload', isAuthenticated, upload.single('file'), async (req, res)
       await db.collection('settings').updateOne({ _id: 'main' }, { $set: update });
     }
     res.json({ success: true, url });
-  } catch (e) { res.status(500).json({ error: e.message }); }
+  } catch (e) {
+    console.error('Upload error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
 });
 
-app.post('/api/upload/member', isAuthenticated, upload.single('file'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file' });
-  res.json({ success: true, url: getFileUrl(req.file) });
+app.post('/api/upload/member', isAuthenticated, upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No file' });
+    const url = await uploadFile(req.file.buffer, req.file.mimetype, req.file.originalname);
+    res.json({ success: true, url });
+  } catch (e) {
+    console.error('Upload error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
 });
 
 // ============================================================
